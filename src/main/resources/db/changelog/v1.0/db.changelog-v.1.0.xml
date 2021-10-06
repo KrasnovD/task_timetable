@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1" author="krasnovD">
+        <sqlFile dbms="mysql"
+                 encoding="utf8"
+                 endDelimiter="\nGO"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"
+                 path="create-tables-and-fk.sql"/>
+        <rollback>
+            <dropAllForeignKeyConstraints baseTableName="routes_stations"></dropAllForeignKeyConstraints>
+            <dropAllForeignKeyConstraints baseTableName="routes"></dropAllForeignKeyConstraints>
+            <dropTable tableName = "routes"></dropTable>
+            <dropTable tableName = "stations"></dropTable>
+            <dropTable tableName = "routes_stations"></dropTable>
+            <dropTable tableName = "tracks"></dropTable>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
