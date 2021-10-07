@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 abstract public class DAOImpl {
-    private Connection connection; //Создаём подключение к бд;
+    private Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","root");
 
     protected DAOImpl() throws SQLException {
     }

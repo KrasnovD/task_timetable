@@ -11,7 +11,11 @@
 
 <body>
 <div>
-    ${station}
+    <c:forEach items="${all}" var="one">
+        <p>
+                ${one}
+        </p>
+    </c:forEach>
     <%--    <p>FIRST</p>--%>
     <%--    ${first}--%>
     <%--    <p>LAST</p>--%>

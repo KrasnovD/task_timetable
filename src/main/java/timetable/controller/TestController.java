@@ -1,37 +1,27 @@
 package timetable.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import timetable.DAO.DaoException;
+import timetable.DAO.StationDAO;
 import timetable.DAOImpl.StationDAOImpl;
-
-import java.sql.DriverManager;
-import java.sql.SQLException;
-//import timetable.repository.RouteRepository;
-//import timetable.repository.TrackRepository;
-//import timetable.service.RouteService;
+import timetable.entity.StationEntity;
+import timetable.service.StationServiceImpl;
+import java.util.List;
 
 @Controller
 public class TestController {
-//    @Autowired
-//    private RouteRepository routeRepository;
-//
-//    @Autowired
-//    private RouteService routeService;
-//    @Autowired
-//    private TrackRepository trackRepository;
-
+    private StationServiceImpl stationService;
+    private StationDAOImpl stationDAO;
     @GetMapping("/")
-    public String test(Model model) throws DaoException, SQLException {
-        StationDAOImpl temp = null;
-        temp.setConnection(DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","root"));
-        System.out.println(temp.findById(1L));
-        model.addAttribute("station", temp.findById(1L).getName());
+    public String test(Model model){
+        try {
+//            List<StationEntity> stationEntityList = stationService.findAll();
+//            System.out.println(stationEntityList.get(0).getName());
+            model.addAttribute("all", stationDAO.findById(1L));
+        }catch (Exception exc){
+            System.out.println(exc.toString());
+        }
         return "station";
     }
 //        model.addAttribute("all",routeRepository.showAllRoute());

@@ -7,8 +7,13 @@ import timetable.entity.StationEntity;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StationDAOImpl extends DAOImpl implements StationDAO {
+
+
     protected StationDAOImpl() throws SQLException {
     }
 
@@ -36,7 +41,7 @@ public class StationDAOImpl extends DAOImpl implements StationDAO {
 
     @Override
     public StationEntity findById(Long id) throws DaoException {
-        String sql = "SELECT 'name' FROM 'stations' WHERE 'id' = ?";
+        String sql = "SELECT 'stations.name' FROM 'stations' WHERE 'id' = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -51,6 +56,7 @@ public class StationDAOImpl extends DAOImpl implements StationDAO {
             }
             return station;
         } catch(SQLException e) {
+            System.out.println("11111111111111");
             throw new DaoException(e);
         } finally {
             try { resultSet.close(); } catch(Exception e) {}
@@ -86,6 +92,31 @@ public class StationDAOImpl extends DAOImpl implements StationDAO {
             throw new DaoException(e);
         } finally {
             try { statement.close(); } catch(Exception e) {}
+        }
+    }
+
+    @Override
+    public List<StationEntity> readAll() throws DaoException {
+        String sql = "SELECT 'id', 'name' FROM 'stations'";
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = getConnection().createStatement();//Получаем доступ к бд
+            resultSet = statement.executeQuery(sql);
+            List<StationEntity> stationEntities = new ArrayList<>();
+            while(resultSet.next()) {
+                StationEntity stationEntity = new StationEntity();
+                stationEntity.setId(resultSet.getLong("id"));
+                stationEntity.setName(resultSet.getString("name"));
+                stationEntities.add(stationEntity);
+            }
+            return stationEntities;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try { resultSet.close(); } catch(Exception e) {}
+            try { statement.close(); } catch(Exception e) {}
+            return new ArrayList<>();
         }
     }
 }
