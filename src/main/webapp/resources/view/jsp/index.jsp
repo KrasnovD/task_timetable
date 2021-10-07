@@ -11,11 +11,11 @@
 
 <body>
 <div>
-        <c:forEach items="${all}" var="one">
-            <p>
-                   ${one.id} <a href ="/${one.id}">${one.fStation} — ${one.lStation}</a> ${one.type}
-            </p>
-        </c:forEach>
+<%--        <c:forEach items="${all}" var="one">--%>
+<%--            <p>--%>
+<%--                   ${one.id} <a href ="/${one.id}">${one.fStation} — ${one.lStation}</a> ${one.type}--%>
+<%--            </p>--%>
+<%--        </c:forEach>--%>
 <%--    <p>FIRST</p>--%>
 <%--    ${first}--%>
 <%--    <p>LAST</p>--%>
