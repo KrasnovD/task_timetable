@@ -4,9 +4,12 @@ import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
 import timetable.DAO.DaoException;
 import timetable.DAOImpl.RouteDAOImpl;
+import timetable.classes.Route;
+import timetable.classes.Station;
 import timetable.entity.RouteEntity;
 import timetable.service.RouteService;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +63,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<String> showAllStations() throws ServiceException {
+    public List<Station> showAllStations() throws ServiceException {
         try {
             routeDAO.showAllStations();
         } catch(DaoException e) {
@@ -68,4 +71,6 @@ public class RouteServiceImpl implements RouteService {
         }
         return new ArrayList<>();
     }
+
+
 }

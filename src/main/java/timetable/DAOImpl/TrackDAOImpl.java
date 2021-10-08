@@ -110,4 +110,57 @@ public class TrackDAOImpl extends DAOImpl implements TrackDAO {
             throw new DaoException(e);
         }
     }
+
+    @Override
+    public String lastStation(long id) throws DaoException, SQLException {
+        String sql = "SELECT stations.name FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id INNER JOIN routes_stations ON routes.id = routes_stations.routes_id INNER JOIN stations ON stations.id = routes_stations.stations_id WHERE tracks.id = ? ORDER BY routes_stations.sequence DESC LIMIT 1";
+        try{
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return "";
+    }
+
+    @Override
+    public String firstStation(long id) throws DaoException, SQLException {
+        String sql = "SELECT stations.name FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id INNER JOIN routes_stations ON routes.id = routes_stations.routes_id INNER JOIN stations ON stations.id = routes_stations.stations_id WHERE tracks.id = ? ORDER BY routes_stations.sequence ASC LIMIT 1";
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return "";
+    }
+    @Override
+    public String showType(long id) throws DaoException {
+        String sql = "SELECT tracks.type FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id WHERE tracks.id = ?";
+        try{
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            int type = resultSet.getInt("type");
+            if (type == 1) {
+                return "ежедневно";
+            } else if (type == 2) {
+                return "по будням";
+            } else if (type == 3) {
+                return "по выходным";
+            }
+            else return null;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return "";
+    }
 }

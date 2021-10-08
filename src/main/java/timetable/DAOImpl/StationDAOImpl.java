@@ -2,6 +2,7 @@ package timetable.DAOImpl;
 
 import timetable.DAO.DaoException;
 import timetable.DAO.StationDAO;
+import timetable.classes.Station;
 import timetable.entity.StationEntity;
 
 import java.sql.PreparedStatement;
@@ -102,26 +103,6 @@ public class StationDAOImpl extends DAOImpl implements StationDAO {
                 stationEntities.add(stationEntity);
             }
             return stationEntities;
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-    }
-
-    @Override
-    public List<String> showAllStations(long id) throws DaoException {
-        String sql = "SELECT routes_stations.time, stations.name FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id INNER JOIN routes_stations ON routes.id = routes_stations.routes_id INNER JOIN stations ON stations.id = routes_stations.stations_id WHERE tracks.id = ? ORDER BY routes_stations.sequence";
-        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            List<String> allStations = new ArrayList<>();
-            while (resultSet.next()) {
-                String station = "";
-                station += resultSet.getTime("routes_stations.time") + " — ";
-                station += resultSet.getString("stations.name") + "\n";
-                System.out.println(station);
-                allStations.add(station);
-            }
-            return allStations;
         } catch (SQLException e) {
             throw new DaoException(e);
         }

@@ -12,9 +12,12 @@
 <body>
 <div>
 <%--    ${all}--%>
-    <c:forEach items="${stations}" var="station">
+    <c:forEach items="${stations}" var="one">
         <p>
-                ${station}
+                ${one.type}
+                ${one.firstStation}
+                ${one.lastStation}
+                ${one.fullTime}
         </p>
     </c:forEach>
     ${err}

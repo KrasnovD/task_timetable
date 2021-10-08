@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import timetable.DAO.DaoException;
 import timetable.DAO.StationDAO;
 import timetable.DAOImpl.StationDAOImpl;
+import timetable.classes.Station;
 import timetable.entity.StationEntity;
 import timetable.service.StationService;
 
@@ -54,15 +55,6 @@ public class StationServiceImpl implements StationService {
     public void delete(Long id) throws ServiceException {
         try {
             stationDAO.delete(id);
-        } catch(DaoException e) {
-            throw new ServiceException(e.getMessage());
-        }
-    }
-
-    @Override
-    public List<String> showAllStations(Long id) throws ServiceException {
-        try {
-            return stationDAO.showAllStations(id);
         } catch(DaoException e) {
             throw new ServiceException(e.getMessage());
         }

@@ -2,8 +2,11 @@ package timetable.DAOImpl;
 
 import timetable.DAO.DaoException;
 import timetable.DAO.RouteDAO;
+import timetable.classes.Route;
+import timetable.classes.Station;
 import timetable.entity.RouteEntity;
 import timetable.entity.StationEntity;
+import timetable.service.StationService;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -109,14 +112,14 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
     }
 
     @Override
-    public List<String> showAllStations() throws DaoException {
+    public List<Station> showAllStations() throws DaoException {
         String sql = "SELECT routes_stations.time, stations.name FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id INNER JOIN routes_stations ON routes.id = routes_stations.routes_id INNER JOIN stations ON stations.id = routes_stations.stations_id WHERE tracks.id = ?1\n";
         try (PreparedStatement statement = getConnection().prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
-            List<String> allStations = new ArrayList<>();
+            List<Station> allStations = new ArrayList<>();
             while (resultSet.next()) {
-                String station = null;
-                station += resultSet.getTime("routes_stations.time") + " — ";
-                station += resultSet.getString("stations.name") + "\n";
+                Station station = new Station();
+                station.setTime(resultSet.getTime("routes_stations.time"));
+                station.setName(resultSet.getString("stations.name"));
                 allStations.add(station);
             }
             return allStations;
@@ -124,4 +127,8 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
             throw new DaoException(e);
         }
     }
+
+
+
+
 }

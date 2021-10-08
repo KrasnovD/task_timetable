@@ -34,10 +34,15 @@ public class AppConfig {
         public RouteDAOImpl routeDAOImpl() {
         return new RouteDAOImpl();
     }
+        @Bean
+        public TrackService trackService() {
+        return new TrackServiceImpl(trackDAOImpl());
+    }
 
-        public TrackService trackService(){ return  new TrackServiceImpl(trackDAOImpl());}
-
-        public TrackDAOImpl trackDAOImpl(){return new TrackDAOImpl();}
+        @Bean
+        public TrackDAOImpl trackDAOImpl() {
+        return new TrackDAOImpl();
+    }
 
 }
 

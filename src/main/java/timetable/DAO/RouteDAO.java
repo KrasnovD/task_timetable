@@ -1,10 +1,12 @@
 package timetable.DAO;
 
+import timetable.classes.Route;
+import timetable.classes.Station;
 import timetable.entity.RouteEntity;
 
-import java.util.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface RouteDAO extends Dao<RouteEntity> {
-    List<String> showAllStations() throws DaoException;
+    List<Station> showAllStations() throws DaoException;
 }

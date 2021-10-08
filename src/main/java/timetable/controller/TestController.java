@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import timetable.serviceImpl.RouteServiceImpl;
 import timetable.serviceImpl.StationServiceImpl;
+import timetable.serviceImpl.TrackServiceImpl;
 
 @Controller
 public class TestController {
@@ -13,12 +14,15 @@ public class TestController {
     private StationServiceImpl stationService;
     @Autowired
     private RouteServiceImpl routeService;
+    @Autowired
+    private TrackServiceImpl trackService;
+
     @GetMapping("/")
     public String test(Model model){
         try {
 //            List<StationEntity> stationEntityList = stationService.findAll();
 //            System.out.println(stationEntityList.get(0).getName());
-            model.addAttribute("stations", routeService.findAll());
+            model.addAttribute("stations", trackService.showAllroutes());
         }catch (Exception exc){
             System.out.println(exc.toString());
         }
