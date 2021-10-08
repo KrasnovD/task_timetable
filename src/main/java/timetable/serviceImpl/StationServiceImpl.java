@@ -1,14 +1,21 @@
-package timetable.service;
+package timetable.serviceImpl;
 
 import org.hibernate.service.spi.ServiceException;
+import org.springframework.stereotype.Service;
 import timetable.DAO.DaoException;
 import timetable.DAO.StationDAO;
+import timetable.DAOImpl.StationDAOImpl;
 import timetable.entity.StationEntity;
+import timetable.service.StationService;
 
 import java.util.List;
+@Service("StationServiceImpl")
+public class StationServiceImpl implements StationService {
+    private StationDAOImpl stationDAO;
 
-public class StationServiceImpl implements StationService{
-    private StationDAO stationDAO;
+    public StationServiceImpl(StationDAOImpl stationDAOImpl) {
+        this.stationDAO=stationDAOImpl;
+    }
 
     @Override
     public List<StationEntity> findAll() throws ServiceException {

@@ -2,6 +2,9 @@ package timetable.DAO;
 
 
 import timetable.entity.Entity;
+import timetable.entity.StationEntity;
+
+import java.util.List;
 
 public interface Dao<T extends Entity> {
     Long save(T entity) throws DaoException;
@@ -11,4 +14,7 @@ public interface Dao<T extends Entity> {
     void update(T entity) throws DaoException;
 
     void delete(Long id) throws DaoException;
+
+    List<T> readAll() throws DaoException;
+
 }

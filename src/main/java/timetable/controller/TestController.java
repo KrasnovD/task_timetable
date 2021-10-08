@@ -1,24 +1,21 @@
 package timetable.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import timetable.DAO.StationDAO;
-import timetable.DAOImpl.StationDAOImpl;
-import timetable.entity.StationEntity;
-import timetable.service.StationServiceImpl;
-import java.util.List;
+import timetable.serviceImpl.StationServiceImpl;
 
 @Controller
 public class TestController {
+    @Autowired
     private StationServiceImpl stationService;
-    private StationDAOImpl stationDAO;
     @GetMapping("/")
     public String test(Model model){
         try {
 //            List<StationEntity> stationEntityList = stationService.findAll();
 //            System.out.println(stationEntityList.get(0).getName());
-            model.addAttribute("all", stationDAO.findById(1L));
+            model.addAttribute("all", stationService.findAll());
         }catch (Exception exc){
             System.out.println(exc.toString());
         }

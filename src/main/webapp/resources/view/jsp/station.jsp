@@ -11,9 +11,10 @@
 
 <body>
 <div>
+<%--    ${all}--%>
     <c:forEach items="${all}" var="one">
         <p>
-                ${one}
+                ${one.name}
         </p>
     </c:forEach>
     <%--    <p>FIRST</p>--%>
