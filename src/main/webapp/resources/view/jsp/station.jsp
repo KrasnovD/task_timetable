@@ -12,11 +12,12 @@
 <body>
 <div>
 <%--    ${all}--%>
-    <c:forEach items="${all}" var="one">
+    <c:forEach items="${stations}" var="station">
         <p>
-                ${one.name}
+                ${station}
         </p>
     </c:forEach>
+    ${err}
     <%--    <p>FIRST</p>--%>
     <%--    ${first}--%>
     <%--    <p>LAST</p>--%>

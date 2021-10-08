@@ -1,7 +1,7 @@
 package timetable.service;
 
 public class ServiceException extends Exception {
-    public ServiceException(Throwable reason) {
+    public ServiceException(String reason) {
         super(reason);
     }
 }

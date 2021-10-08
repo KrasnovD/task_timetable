@@ -4,18 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import timetable.serviceImpl.RouteServiceImpl;
 import timetable.serviceImpl.StationServiceImpl;
 
 @Controller
 public class TestController {
     @Autowired
     private StationServiceImpl stationService;
+    @Autowired
+    private RouteServiceImpl routeService;
     @GetMapping("/")
     public String test(Model model){
         try {
 //            List<StationEntity> stationEntityList = stationService.findAll();
 //            System.out.println(stationEntityList.get(0).getName());
-            model.addAttribute("all", stationService.findAll());
+            model.addAttribute("stations", routeService.findAll());
         }catch (Exception exc){
             System.out.println(exc.toString());
         }

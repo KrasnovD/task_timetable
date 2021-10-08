@@ -1,6 +1,6 @@
 package timetable.entity;
 
-public class TracksEntity {
+public class TrackEntity extends Entity{
     private int type;
     private long routes_id;
 

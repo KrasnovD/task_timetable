@@ -8,8 +8,10 @@ import timetable.DAOImpl.StationDAOImpl;
 import timetable.entity.StationEntity;
 import timetable.service.StationService;
 
+import java.util.ArrayList;
 import java.util.List;
-@Service("StationServiceImpl")
+
+@Service("StationService")
 public class StationServiceImpl implements StationService {
     private StationDAOImpl stationDAO;
 
@@ -52,6 +54,15 @@ public class StationServiceImpl implements StationService {
     public void delete(Long id) throws ServiceException {
         try {
             stationDAO.delete(id);
+        } catch(DaoException e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<String> showAllStations(Long id) throws ServiceException {
+        try {
+            return stationDAO.showAllStations(id);
         } catch(DaoException e) {
             throw new ServiceException(e.getMessage());
         }

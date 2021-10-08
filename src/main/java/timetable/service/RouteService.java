@@ -5,12 +5,6 @@ import timetable.entity.StationEntity;
 
 import java.util.List;
 
-public interface RouteService {
-    List<RouteEntity> findAll() throws ServiceException;
-
-    RouteEntity findById(Long id) throws ServiceException;
-
-    void save(RouteEntity routeEntity) throws ServiceException;
-
-    void delete(Long id) throws ServiceException;
-}
+public interface RouteService extends Service<RouteEntity>{
+    List<String> showAllStations() throws ServiceException;
+ }

@@ -32,7 +32,8 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
                 resultSet.close();
             } catch (Exception ignored) {
             }
-        }    }
+        }
+    }
 
     @Override
     public RouteEntity findById(Long id) throws DaoException {
@@ -79,13 +80,14 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
             statement = getConnection().prepareStatement(sql);
             statement.setLong(1, id);
             statement.executeUpdate();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             try {
                 assert statement != null;
                 statement.close();
-            } catch(Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
     }
 
@@ -101,6 +103,23 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
                 routeEntities.add(routeEntity);
             }
             return routeEntities;
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public List<String> showAllStations() throws DaoException {
+        String sql = "SELECT routes_stations.time, stations.name FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id INNER JOIN routes_stations ON routes.id = routes_stations.routes_id INNER JOIN stations ON stations.id = routes_stations.stations_id WHERE tracks.id = ?1\n";
+        try (PreparedStatement statement = getConnection().prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
+            List<String> allStations = new ArrayList<>();
+            while (resultSet.next()) {
+                String station = null;
+                station += resultSet.getTime("routes_stations.time") + " — ";
+                station += resultSet.getString("stations.name") + "\n";
+                allStations.add(station);
+            }
+            return allStations;
         } catch (SQLException e) {
             throw new DaoException(e);
         }
