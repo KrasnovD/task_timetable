@@ -112,14 +112,18 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
     }
 
     @Override
-    public List<Station> showAllStations() throws DaoException {
-        String sql = "SELECT routes_stations.time, stations.name FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id INNER JOIN routes_stations ON routes.id = routes_stations.routes_id INNER JOIN stations ON stations.id = routes_stations.stations_id WHERE tracks.id = ?1\n";
-        try (PreparedStatement statement = getConnection().prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
+    public List<Station> showAllStations(long id) throws DaoException {
+        String sql = "SELECT routes_stations.time, stations.name FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id INNER JOIN routes_stations ON routes.id = routes_stations.routes_id INNER JOIN stations ON stations.id = routes_stations.stations_id WHERE tracks.id = ? ORDER BY routes_stations.sequence ";
+        try{
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
             List<Station> allStations = new ArrayList<>();
             while (resultSet.next()) {
                 Station station = new Station();
-                station.setTime(resultSet.getTime("routes_stations.time"));
-                station.setName(resultSet.getString("stations.name"));
+                station.setTime(resultSet.getTime("time"));
+                station.setName(resultSet.getString("name"));
+                System.out.println(station.getName() + " " + station.getTime());
                 allStations.add(station);
             }
             return allStations;
@@ -127,8 +131,4 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
             throw new DaoException(e);
         }
     }
-
-
-
-
 }

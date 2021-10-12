@@ -1,50 +1,69 @@
 package timetable.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import timetable.serviceImpl.RouteServiceImpl;
 import timetable.serviceImpl.StationServiceImpl;
 import timetable.serviceImpl.TrackServiceImpl;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 @Controller
 public class TestController {
-    @Autowired
-    private StationServiceImpl stationService;
     @Autowired
     private RouteServiceImpl routeService;
     @Autowired
     private TrackServiceImpl trackService;
 
     @GetMapping("/")
-    public String test(Model model){
+    public String showRouteByStationGet(Model model){
+        return "index";
+    }
+
+    @PostMapping("/")
+    public String showRouteByStationPost(Model model, @RequestParam String name){
         try {
-//            List<StationEntity> stationEntityList = stationService.findAll();
-//            System.out.println(stationEntityList.get(0).getName());
+            model.addAttribute("stations", trackService.showRouteByStation(name));
+        }catch (Exception exc){
+            System.out.println(exc.toString());
+        }
+        return "route";
+    }
+
+
+    @GetMapping("/allroutes")
+    public String showAllroutes(Model model){
+        try {
             model.addAttribute("stations", trackService.showAllroutes());
         }catch (Exception exc){
             System.out.println(exc.toString());
         }
-        return "station";
+        return "routes";
     }
-//        model.addAttribute("all",routeRepository.showAllRoute());
-//        model.addAttribute("first", routeRepository.showFirstStation());
-//        model.addAttribute("last", routeRepository.showLastStation());
-//        model.addAttribute("type",routeService.typeRoute());
-//        model.addAttribute("all",routeService.showAllRoutes());
-//        return "index";
-//    }
-//
-//    @GetMapping("/{id}")
-//    public String ttest(Model model, @PathVariable Long id){
-//        model.addAttribute("all", routeRepository.showAllRoute(id));
-//        return "routeStations";
-//    }
-//
-//    @GetMapping("/routes/{name}")
-//    public String mainPage(@PathVariable String name, Model model){
-//        model.addAttribute("all",routeService.showAllRoutesByStation(name));
-//        return "index";
-//    }
+
+
+    @GetMapping("/{id}")
+    public String showAllStations(Model model, @PathVariable Long id){
+        model.addAttribute("stations", routeService.showAllStations(id));
+        return "routeStations";
+    }
+
+    @GetMapping("/buy/{id}")
+    public String buyTicketGet(Model model, @PathVariable Long id){
+        model.addAttribute("id",id);
+        model.addAttribute("date", LocalDate.now());
+        return "buyticket";
+    }
+
+    @PostMapping("/buy/{id}")
+    public String buyTicketPost(Model model, @RequestParam String name, @RequestParam String surname, @RequestParam String tel, @RequestParam Date date){
+        return "buyticket";
+    }
 }

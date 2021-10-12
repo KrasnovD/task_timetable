@@ -63,13 +63,12 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Station> showAllStations() throws ServiceException {
+    public List<Station> showAllStations(long id) throws ServiceException {
         try {
-            routeDAO.showAllStations();
+            return routeDAO.showAllStations(id);
         } catch(DaoException e) {
             throw new ServiceException(e.getMessage());
         }
-        return new ArrayList<>();
     }
 
 

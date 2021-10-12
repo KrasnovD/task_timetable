@@ -60,29 +60,65 @@ public class TrackServiceImpl implements TrackService {
             throw new ServiceException(e.getMessage());
         }
     }
+
+    @Override
+    public String showFirstStation(long id) throws ServiceException, SQLException, DaoException {
+        TrackEntity trackEntity = findById(id);
+        return trackDAO.firstStation(trackEntity.getId());
+    }
+
+    @Override
+    public String showLastStation(long id) throws ServiceException, SQLException, DaoException {
+        TrackEntity trackEntity = findById(id);
+        return trackDAO.lastStation(trackEntity.getId());
+    }
+
+    @Override
+    public String showType(long id) throws ServiceException, DaoException {
+        TrackEntity trackEntity = findById(id);
+        return trackDAO.showType(trackEntity.getId());
+    }
+
     @Override
     public List<Route> showAllroutes() throws timetable.service.ServiceException {
         try {
             List<Route> routeList = new ArrayList<>();
-            System.out.println(123);
-            List<TrackEntity> trackEntities = findAll();
-            System.out.println(123);
+            List<TrackEntity> trackEntities = trackDAO.readAll();
             for (TrackEntity track: trackEntities
             ) {
                 Route tempRoute = new Route();
-                System.out.println(track.getId());
                 tempRoute.setFirstStation(trackDAO.firstStation(track.getId()));
-                System.out.println(123);
-                System.out.println(tempRoute.getFirstStation());
                 tempRoute.setLastStation(trackDAO.lastStation(track.getId()));
-                System.out.println(123);
                 tempRoute.setType(trackDAO.showType(track.getId()));
-                System.out.println(123);
+                tempRoute.setId(track.getId());
+//                System.out.println(tempRoute.getFirstStation()+" "+tempRoute.getLastStation()+ " "+tempRoute.getType());
                 routeList.add(tempRoute);
             }
+            return routeList;
         } catch (DaoException | SQLException e) {
             throw new org.hibernate.service.spi.ServiceException(e.getMessage());
         }
-        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Route> showRouteByStation(String stationName) throws ServiceException {
+        try {
+            List<Route> routeList = new ArrayList<>();
+            List<TrackEntity> trackEntities = trackDAO.TrackByStation(stationName);
+            System.out.println(stationName);
+            for (TrackEntity track: trackEntities
+            ) {
+                Route tempRoute = new Route();
+                tempRoute.setFirstStation(trackDAO.firstStation(track.getId()));
+                tempRoute.setLastStation(trackDAO.lastStation(track.getId()));
+                tempRoute.setType(trackDAO.showType(track.getId()));
+                tempRoute.setId(track.getId());
+//                System.out.println(tempRoute.getFirstStation()+" "+tempRoute.getLastStation()+ " "+tempRoute.getType());
+                routeList.add(tempRoute);
+            }
+            return routeList;
+        } catch (DaoException | SQLException e) {
+            throw new org.hibernate.service.spi.ServiceException(e.getMessage());
+        }
     }
 }

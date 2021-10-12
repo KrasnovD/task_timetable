@@ -1,56 +1,43 @@
-.header{
-    color: blue;
-    text-align: center;
-    font-size: 250%;
-    align: center;
-}
-.test{
-    color: black;
-    text-align: center;
-    margin: 10px auto;
-}
-table{
-    color: azure;
-    text-align: center;
-    font-size: 50px;
-}
 
-.add{
-    /*background-image: url(https://phonoteka.org/uploads/posts/2021-05/1621391011_2-phonoteka_org-p-fon-rzhd-2.jpg);*/
+body{
+    background: azure;
+    /*background-image: url(https://phonoteka.org/uploads/posts/2021-04/1618463046_3-phonoteka_org-p-fon-zheleznaya-doroga-3.jpg);*/
+    background-size: 100%;
+    text-align: center;
 }
-.form{
-    /*background: url(https://phonoteka.org/uploads/posts/2021-05/1621391011_2-phonoteka_org-p-fon-rzhd-2.jpg);*/
-    background-position-x: 10px;
-    background-position-y: 10px;
-    background-repeat: no-repeat;
-    border-style: solid;
-    border-radius: 50px;
-    border-width: 5px;
-    border-color: black;
-    width: 500px;
-    height: 350px;
-    position: fixed; top: 10px; left: 10px;
-}
-.main{
-    position: fixed; top: 700px; left:1000px;
-    font-size: 100px;
-    background: wheat;
+.form {
+    position: absolute;
+    right: 45%;
+    background: gray;
     border-style: solid;
     border-radius: 10px;
     border-width: 5px;
     border-color: black;
+    width: 10%;
 }
-.hr-vertical-gradient {
+header{
 
-    margin: 20px 0;
-
-    padding: 0;
-
-    height: 10px;
-
-    border: none;
-
-    background: linear-gradient(180deg, white, black);
-
+    font-size: 30px;
+    right: 50%;
+    color: black;
+}
+footer{
+    position: absolute;
+    right: 45%;
+    top: 90%;
+    background: gray;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 5px;
+    border-color: black;
+    width: 150px;
+    height: 30px;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    /*background-image: url(https://im0-tub-ru.yandex.net/i?id=3e240e71e7722d45042cbbf145da3c62&ref=rim&n=33&w=225&h=150);*/
+}
+a:visited {
+    color: black;
 }
 

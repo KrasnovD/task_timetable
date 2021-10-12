@@ -9,7 +9,6 @@
     <link href="${pageContext.request.contextPath}/resources/view/css/styles.css" rel="stylesheet" ></head>
 <link type="image/png" sizes="32x32" rel="icon" href="${pageContext.request.contextPath}/resources/view/favicon.ico">
 </head>
-
 <body>
 <header>
     Маршруты
@@ -18,10 +17,18 @@
 <div>
     <c:forEach items="${stations}" var="one">
         <p>
-            <a href="/${one.id}">${one.firstStation} — ${one.lastStation}</a><br>Дни курсирования:
-                ${one.type}
+            <a href="/${one.id}">${one.firstStation} — ${one.lastStation}</a>
+            <br>Дни курсирования: ${one.type}
+        </p>
+        <p>
+            <a href="/buy/${one.id}">Купить</a>
         </p>
     </c:forEach>
+    <c:if test="${stations.size()==0}">
+       <p>
+           Нет маршрутов с этой станцией.
+       </p>
+    </c:if>
 </div>
 </section>
 <footer>

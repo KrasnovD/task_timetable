@@ -3,6 +3,7 @@ package timetable.classes;
 import java.sql.Time;
 
 public class Route {
+    private long id;
     private String firstStation;
     private String lastStation;
     private String type;
@@ -29,5 +30,13 @@ public class Route {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

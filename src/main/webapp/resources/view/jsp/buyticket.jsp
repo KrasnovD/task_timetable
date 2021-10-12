@@ -16,9 +16,12 @@
 </header>
 <section>
     <div>
-        <form class="form" action="/" method="post">
-            <input type="text" name="name" placeholder="Введите станцию">
-            <input type="submit" value="Поиск">
+        <form class="form" action="/buy/${id}" method="post">
+            <input type="text" name="name" placeholder="Имя" required>
+            <input type="text" name="surname" placeholder="Фамилия" required>
+            <input type="tel" name="text" placeholder="Номер паспорта" required>
+            <input type="date" name="date" required min=${date}>
+            <input type="submit" value="КУПИТЬ">
         </form>
     </div>
 </section>

@@ -8,5 +8,5 @@ import timetable.entity.StationEntity;
 import java.util.List;
 
 public interface RouteService extends Service<RouteEntity>{
-    List<Station> showAllStations() throws ServiceException;
+    List<Station> showAllStations(long id) throws ServiceException;
  }
