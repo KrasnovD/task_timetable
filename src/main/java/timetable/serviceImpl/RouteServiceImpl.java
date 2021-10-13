@@ -2,14 +2,11 @@ package timetable.serviceImpl;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
-import timetable.DAO.DaoException;
 import timetable.DAOImpl.RouteDAOImpl;
-import timetable.classes.Route;
 import timetable.classes.Station;
 import timetable.entity.RouteEntity;
 import timetable.service.RouteService;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,42 +20,44 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<RouteEntity> findAll() throws ServiceException {
+    public List<RouteEntity> findAll(){
         try {
             return routeDAO.readAll();
-        } catch(DaoException e) {
-            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 
     @Override
-    public RouteEntity findById(Long id) throws ServiceException {
+    public RouteEntity findById(Long id){
         try {
             return routeDAO.findById(id);
-        } catch(DaoException e) {
-            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new RouteEntity();
         }
     }
 
     @Override
-    public void save(RouteEntity routeEntity) throws ServiceException {
+    public void save(RouteEntity routeEntity){
         try {
             if(routeEntity.getId() != null) {
                 routeDAO.update(routeEntity);
             } else {
                 routeDAO.save(routeEntity);
             }
-        } catch(DaoException e) {
-            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Long id) throws ServiceException {
+    public void delete(Long id){
         try {
             routeDAO.delete(id);
-        } catch(DaoException e) {
-            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -66,8 +65,9 @@ public class RouteServiceImpl implements RouteService {
     public List<Station> showAllStations(long id) throws ServiceException {
         try {
             return routeDAO.showAllStations(id);
-        } catch(DaoException e) {
-            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 

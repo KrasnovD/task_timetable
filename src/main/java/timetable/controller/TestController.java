@@ -29,22 +29,14 @@ public class TestController {
 
     @PostMapping("/")
     public String showRouteByStationPost(Model model, @RequestParam String name){
-        try {
-            model.addAttribute("stations", trackService.showRouteByStation(name));
-        }catch (Exception exc){
-            System.out.println(exc.toString());
-        }
+        model.addAttribute("stations", trackService.showRouteByStation(name.toLowerCase()));
         return "route";
     }
 
 
     @GetMapping("/allroutes")
     public String showAllroutes(Model model){
-        try {
-            model.addAttribute("stations", trackService.showAllroutes());
-        }catch (Exception exc){
-            System.out.println(exc.toString());
-        }
+        model.addAttribute("stations", trackService.showAllroutes());
         return "routes";
     }
 

@@ -1,14 +1,9 @@
 package timetable.serviceImpl;
 
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
-import timetable.DAO.DaoException;
-import timetable.DAO.StationDAO;
 import timetable.DAOImpl.StationDAOImpl;
-import timetable.classes.Station;
 import timetable.entity.StationEntity;
 import timetable.service.StationService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,42 +16,44 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public List<StationEntity> findAll() throws ServiceException {
+    public List<StationEntity> findAll(){
         try {
             return stationDAO.readAll();
-        } catch(DaoException e) {
-            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 
     @Override
-    public StationEntity findById(Long id) throws ServiceException {
+    public StationEntity findById(Long id){
         try {
             return stationDAO.findById(id);
-        } catch(DaoException e) {
-            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new StationEntity();
         }
     }
 
     @Override
-    public void save(StationEntity stationEntity) throws ServiceException {
+    public void save(StationEntity stationEntity){
         try {
             if(stationEntity.getId() != null) {
                 stationDAO.update(stationEntity);
             } else {
                 stationDAO.save(stationEntity);
             }
-        } catch(DaoException e) {
-            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Long id) throws ServiceException {
+    public void delete(Long id){
         try {
             stationDAO.delete(id);
-        } catch(DaoException e) {
-            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

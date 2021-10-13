@@ -1,8 +1,6 @@
 package timetable.DAOImpl;
 
-import timetable.DAO.DaoException;
 import timetable.DAO.StationDAO;
-import timetable.classes.Station;
 import timetable.entity.StationEntity;
 
 import java.sql.PreparedStatement;
@@ -14,7 +12,7 @@ import java.util.List;
 public class StationDAOImpl extends DAOImpl implements StationDAO {
 
     @Override
-    public Long save(StationEntity station) throws DaoException {
+    public Long save(StationEntity station) {
         String sql = "INSERT INTO stations(name) VALUES (?)";
         ResultSet resultSet = null;
         try (PreparedStatement statement = getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -26,18 +24,13 @@ public class StationDAOImpl extends DAOImpl implements StationDAO {
             station.setId(id);
             return id;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            try {
-                assert resultSet != null;
-                resultSet.close();
-            } catch (Exception ignored) {
-            }
+            e.printStackTrace();
+            return null;
         }
     }
 
     @Override
-    public StationEntity findById(Long id) throws DaoException {
+    public StationEntity findById(Long id){
         String sql = "SELECT stations.name FROM stations WHERE id = ?";
         ResultSet resultSet = null;
         try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
@@ -51,48 +44,38 @@ public class StationDAOImpl extends DAOImpl implements StationDAO {
             }
             return station;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            try {
-                assert resultSet != null;
-                resultSet.close();
-            } catch (Exception ignored) {
-            }
+            e.printStackTrace();
+            return new StationEntity();
         }
     }
 
     @Override
-    public void update(StationEntity station) throws DaoException {
+    public void update(StationEntity station){
         String sql = "UPDATE stations SET name = ? WHERE id = ?";
         try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
             statement.setString(1, station.getName());
             statement.setLong(2, station.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Long id) throws DaoException {
+    public void delete(Long id){
         String sql = "DELETE FROM stations WHERE id = ?";
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(sql);
             statement.setLong(1, id);
             statement.executeUpdate();
-        } catch(SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            try {
-                assert statement != null;
-                statement.close();
-            } catch(Exception ignored) {}
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public List<StationEntity> readAll() throws DaoException {
+    public List<StationEntity> readAll(){
         String sql = "SELECT id, name FROM stations";
         try (PreparedStatement statement = getConnection().prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
             List<StationEntity> stationEntities = new ArrayList<>();
@@ -104,7 +87,8 @@ public class StationDAOImpl extends DAOImpl implements StationDAO {
             }
             return stationEntities;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 }

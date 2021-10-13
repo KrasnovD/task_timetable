@@ -1,12 +1,8 @@
 package timetable.DAOImpl;
 
-import timetable.DAO.DaoException;
 import timetable.DAO.RouteDAO;
-import timetable.classes.Route;
 import timetable.classes.Station;
 import timetable.entity.RouteEntity;
-import timetable.entity.StationEntity;
-import timetable.service.StationService;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +12,7 @@ import java.util.List;
 
 public class RouteDAOImpl extends DAOImpl implements RouteDAO {
     @Override
-    public Long save(RouteEntity routeEntity) throws DaoException {
+    public Long save(RouteEntity routeEntity){
         String sql = "INSERT INTO routes(time) VALUES (?)";
         ResultSet resultSet = null;
         try (PreparedStatement statement = getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -28,18 +24,13 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
             routeEntity.setId(id);
             return id;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            try {
-                assert resultSet != null;
-                resultSet.close();
-            } catch (Exception ignored) {
-            }
+            e.printStackTrace();
+            return null;
         }
     }
 
     @Override
-    public RouteEntity findById(Long id) throws DaoException {
+    public RouteEntity findById(Long id){
         String sql = "SELECT routes.time FROM routes WHERE id = ?";
         ResultSet resultSet = null;
         try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
@@ -53,30 +44,25 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
             }
             return routeEntity;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            try {
-                assert resultSet != null;
-                resultSet.close();
-            } catch (Exception ignored) {
-            }
+            e.printStackTrace();
+            return new RouteEntity();
         }
     }
 
     @Override
-    public void update(RouteEntity routeEntity) throws DaoException {
+    public void update(RouteEntity routeEntity){
         String sql = "UPDATE routes SET time = ? WHERE id = ?";
         try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
             statement.setTime(1, routeEntity.getTime());
             statement.setLong(2, routeEntity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Long id) throws DaoException {
+    public void delete(Long id){
         String sql = "DELETE FROM routes WHERE id = ?";
         PreparedStatement statement = null;
         try {
@@ -84,18 +70,12 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            try {
-                assert statement != null;
-                statement.close();
-            } catch (Exception ignored) {
-            }
+            e.printStackTrace();
         }
     }
 
     @Override
-    public List<RouteEntity> readAll() throws DaoException {
+    public List<RouteEntity> readAll(){
         String sql = "SELECT id, time FROM routes";
         try (PreparedStatement statement = getConnection().prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
             List<RouteEntity> routeEntities = new ArrayList<>();
@@ -107,13 +87,18 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
             }
             return routeEntities;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 
     @Override
-    public List<Station> showAllStations(long id) throws DaoException {
-        String sql = "SELECT routes_stations.time, stations.name FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id INNER JOIN routes_stations ON routes.id = routes_stations.routes_id INNER JOIN stations ON stations.id = routes_stations.stations_id WHERE tracks.id = ? ORDER BY routes_stations.sequence ";
+    public List<Station> showAllStations(long id){
+        String sql = "SELECT routes_stations.time, stations.name FROM tracks " +
+                "INNER JOIN routes ON tracks.routes_id = routes.id " +
+                "INNER JOIN routes_stations ON routes.id = routes_stations.routes_id " +
+                "INNER JOIN stations ON stations.id = routes_stations.stations_id " +
+                "WHERE tracks.id = ? ORDER BY routes_stations.sequence ";
         try{
             PreparedStatement statement = getConnection().prepareStatement(sql);
             statement.setLong(1, id);
@@ -128,7 +113,8 @@ public class RouteDAOImpl extends DAOImpl implements RouteDAO {
             }
             return allStations;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 }

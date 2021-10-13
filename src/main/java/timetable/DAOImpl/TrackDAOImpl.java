@@ -1,9 +1,6 @@
 package timetable.DAOImpl;
 
-import timetable.DAO.DaoException;
 import timetable.DAO.TrackDAO;
-import timetable.entity.RouteEntity;
-import timetable.entity.StationEntity;
 import timetable.entity.TrackEntity;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +10,7 @@ import java.util.List;
 
 public class TrackDAOImpl extends DAOImpl implements TrackDAO {
     @Override
-    public Long save(TrackEntity trackEntity) throws DaoException {
+    public Long save(TrackEntity trackEntity) {
         String sql = "INSERT INTO tracks(type, routes_id) VALUES (?,?)";
         ResultSet resultSet = null;
         try (PreparedStatement statement = getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -26,18 +23,13 @@ public class TrackDAOImpl extends DAOImpl implements TrackDAO {
             trackEntity.setId(id);
             return id;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            try {
-                assert resultSet != null;
-                resultSet.close();
-            } catch (Exception ignored) {
-            }
+            e.printStackTrace();
+            return null;
         }
     }
 
     @Override
-    public TrackEntity findById(Long id) throws DaoException {
+    public TrackEntity findById(Long id){
         String sql = "SELECT tracks.type, tracks.routes_id FROM tracks WHERE id = ?";
         ResultSet resultSet = null;
         try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
@@ -52,18 +44,13 @@ public class TrackDAOImpl extends DAOImpl implements TrackDAO {
             }
             return trackEntity;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            try {
-                assert resultSet != null;
-                resultSet.close();
-            } catch (Exception ignored) {
-            }
+            e.printStackTrace();
+            return new TrackEntity();
         }
     }
 
     @Override
-    public void update(TrackEntity trackEntity) throws DaoException {
+    public void update(TrackEntity trackEntity){
         String sql = "UPDATE tracks SET type = ?, routes_id =? WHERE id = ?";
         try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
             statement.setInt(1, trackEntity.getType());
@@ -71,30 +58,25 @@ public class TrackDAOImpl extends DAOImpl implements TrackDAO {
             statement.setLong(3, trackEntity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Long id) throws DaoException {
+    public void delete(Long id){
         String sql = "DELETE FROM tracks WHERE id = ?";
         PreparedStatement statement = null;
         try {
             statement = getConnection().prepareStatement(sql);
             statement.setLong(1, id);
             statement.executeUpdate();
-        } catch(SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            try {
-                assert statement != null;
-                statement.close();
-            } catch(Exception ignored) {}
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public List<TrackEntity> readAll() throws DaoException {
+    public List<TrackEntity> readAll() {
         String sql = "SELECT id, type, routes_id FROM tracks";
         try (PreparedStatement statement = getConnection().prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
             List<TrackEntity> trackEntities = new ArrayList<>();
@@ -107,12 +89,13 @@ public class TrackDAOImpl extends DAOImpl implements TrackDAO {
             }
             return trackEntities;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 
     @Override
-    public String lastStation(long id) throws DaoException, SQLException {
+    public String lastStation(long id){
         String sql = "SELECT stations.name FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id INNER JOIN routes_stations ON routes.id = routes_stations.routes_id INNER JOIN stations ON stations.id = routes_stations.stations_id WHERE tracks.id = ? ORDER BY routes_stations.sequence DESC LIMIT 1";
         try{
             PreparedStatement statement = getConnection().prepareStatement(sql);
@@ -122,14 +105,18 @@ public class TrackDAOImpl extends DAOImpl implements TrackDAO {
                 return resultSet.getString("name");
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            e.printStackTrace();
         }
         return "";
     }
 
     @Override
-    public String firstStation(long id) throws DaoException, SQLException {
-        String sql = "SELECT stations.name FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id INNER JOIN routes_stations ON routes.id = routes_stations.routes_id INNER JOIN stations ON stations.id = routes_stations.stations_id WHERE tracks.id = ? ORDER BY routes_stations.sequence ASC LIMIT 1";
+    public String firstStation(long id){
+        String sql = "SELECT stations.name FROM tracks " +
+                "INNER JOIN routes ON tracks.routes_id = routes.id " +
+                "INNER JOIN routes_stations ON routes.id = routes_stations.routes_id " +
+                "INNER JOIN stations ON stations.id = routes_stations.stations_id " +
+                "WHERE tracks.id = ? ORDER BY routes_stations.sequence ASC LIMIT 1";
         try {
             PreparedStatement statement = getConnection().prepareStatement(sql);
             statement.setLong(1, id);
@@ -137,13 +124,14 @@ public class TrackDAOImpl extends DAOImpl implements TrackDAO {
             while (resultSet.next()) {
                 return resultSet.getString("name");
             }
+            return "";
         } catch (SQLException e) {
-            throw new DaoException(e);
+            e.printStackTrace();
+            return "";
         }
-        return "";
     }
     @Override
-    public String showType(long id) throws DaoException {
+    public String showType(long id){
         String sql = "SELECT tracks.type FROM tracks INNER JOIN routes ON tracks.routes_id = routes.id WHERE tracks.id = ?";
         try{
             PreparedStatement statement = getConnection().prepareStatement(sql);
@@ -161,19 +149,19 @@ public class TrackDAOImpl extends DAOImpl implements TrackDAO {
                 return "по выходным";
             }
             else return "Не указано";
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return "";
     }
 
     @Override
-    public long tickets(long id) throws DaoException {
+    public long tickets(long id){
         return 0;
     }
 
     @Override
-    public List<TrackEntity> TrackByStation(String stationName) throws DaoException {
+    public List<TrackEntity> TrackByStation(String stationName){
         String sql = "SELECT tracks.id, tracks.type, tracks.routes_id FROM tracks " +
                 "INNER JOIN routes ON tracks.routes_id = routes.id " +
                 "INNER JOIN routes_stations ON routes.id = routes_stations.routes_id " +
@@ -193,7 +181,8 @@ public class TrackDAOImpl extends DAOImpl implements TrackDAO {
             }
             return trackEntities;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            e.printStackTrace();
+            return  new ArrayList<>();
         }
     }
 }

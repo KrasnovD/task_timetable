@@ -1,7 +1,6 @@
 
 body{
     background: azure;
-    /*background-image: url(https://phonoteka.org/uploads/posts/2021-04/1618463046_3-phonoteka_org-p-fon-zheleznaya-doroga-3.jpg);*/
     background-size: 100%;
     text-align: center;
 }
@@ -35,7 +34,6 @@ footer{
     color: white;
     text-align: center;
     font-size: 20px;
-    /*background-image: url(https://im0-tub-ru.yandex.net/i?id=3e240e71e7722d45042cbbf145da3c62&ref=rim&n=33&w=225&h=150);*/
 }
 a:visited {
     color: black;

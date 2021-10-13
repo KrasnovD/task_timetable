@@ -1,20 +1,20 @@
 package timetable.DAO;
 
 
+import org.springframework.data.repository.NoRepositoryBean;
 import timetable.entity.Entity;
-import timetable.entity.StationEntity;
 
 import java.util.List;
-
+@NoRepositoryBean
 public interface Dao<T extends Entity> {
-    Long save(T entity) throws DaoException;
+    Long save(T entity);
 
-    T findById(Long id) throws DaoException;
+    T findById(Long id);
 
-    void update(T entity) throws DaoException;
+    void update(T entity);
 
-    void delete(Long id) throws DaoException;
+    void delete(Long id);
 
-    List<T> readAll() throws DaoException;
+    List<T> readAll();
 
 }
