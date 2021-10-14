@@ -21,4 +21,5 @@ public class Station {
     public void setTime(Time time) {
         this.time = time;
     }
+
 }

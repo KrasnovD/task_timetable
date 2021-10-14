@@ -18,7 +18,7 @@ public class StationServiceImpl implements StationService {
     @Override
     public List<StationEntity> findAll(){
         try {
-            return stationDAO.readAll();
+            return stationDAO.findAll();
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -27,33 +27,16 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public StationEntity findById(Long id){
-        try {
-            return stationDAO.findById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new StationEntity();
-        }
+        return null;
     }
 
     @Override
     public void save(StationEntity stationEntity){
-        try {
-            if(stationEntity.getId() != null) {
-                stationDAO.update(stationEntity);
-            } else {
-                stationDAO.save(stationEntity);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
     public void delete(Long id){
-        try {
-            stationDAO.delete(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 }

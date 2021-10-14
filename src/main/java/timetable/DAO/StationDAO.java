@@ -4,5 +4,5 @@ import org.springframework.stereotype.Repository;
 import timetable.entity.StationEntity;
 
 @Repository
-public interface StationDAO extends Dao<StationEntity> {
+public interface StationDAO extends DAO<StationEntity>{
 }

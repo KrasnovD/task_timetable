@@ -1,7 +1,19 @@
 package timetable.entity;
 
-public class TrackEntity extends Entity{
+
+import javax.persistence.*;
+
+import javax.persistence.TableGenerator;
+import java.io.Serializable;
+
+@Entity(name = "track")
+@Table(name = "tracks")
+public class TrackEntity implements Serializable {
+    @Id
+    private long id;
+    @Column
     private int type;
+    @Column
     private long routes_id;
 
     public int getType() {
@@ -18,5 +30,13 @@ public class TrackEntity extends Entity{
 
     public void setRoutes_id(long routes_id) {
         this.routes_id = routes_id;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

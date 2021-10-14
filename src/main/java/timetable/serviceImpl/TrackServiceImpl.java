@@ -1,26 +1,29 @@
 package timetable.serviceImpl;
 
 import org.springframework.stereotype.Service;
+import timetable.DAO.TrackDAO;
 import timetable.DAOImpl.TrackDAOImpl;
 import timetable.classes.Route;
+import timetable.classes.Track;
 import timetable.entity.TrackEntity;
 import timetable.service.TrackService;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service("TrackService")
 public class TrackServiceImpl implements TrackService {
-
+    TrackDAO DAO;
     TrackDAOImpl trackDAO;
     public TrackServiceImpl(TrackDAOImpl trackDAOImpl) {
         this.trackDAO = trackDAOImpl;
     }
 
     @Override
-    public List<TrackEntity> findAll(){
+    public Collection<TrackEntity> findAll(){
         try {
-            return trackDAO.readAll();
+            return trackDAO.findAll();
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -28,35 +31,18 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public TrackEntity findById(Long id){
-        try {
-            return trackDAO.findById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new TrackEntity();
-        }
+    public TrackEntity findById(Long id) {
+        return null;
     }
 
     @Override
-    public void save(TrackEntity entity){
-        try {
-            if(entity.getId() != null) {
-                trackDAO.update(entity);
-            } else {
-                trackDAO.save(entity);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void save(TrackEntity entity) {
+
     }
 
     @Override
     public void delete(Long id) {
-        try {
-            trackDAO.delete(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
@@ -81,14 +67,15 @@ public class TrackServiceImpl implements TrackService {
     public List<Route> showAllroutes(){
         try {
             List<Route> routeList = new ArrayList<>();
-            List<TrackEntity> trackEntities = trackDAO.readAll();
-            for (TrackEntity track: trackEntities
+
+            for (long id: DAO.findAllId()
             ) {
                 Route tempRoute = new Route();
-                tempRoute.setFirstStation(trackDAO.firstStation(track.getId()));
-                tempRoute.setLastStation(trackDAO.lastStation(track.getId()));
-                tempRoute.setType(trackDAO.showType(track.getId()));
-                tempRoute.setId(track.getId());
+                System.out.printf(trackDAO.firstStation(id));
+                tempRoute.setFirstStation(trackDAO.firstStation(id));
+                tempRoute.setLastStation(trackDAO.lastStation(id));
+                tempRoute.setType(trackDAO.showType(id));
+                tempRoute.setId(id);
                 routeList.add(tempRoute);
             }
             return routeList;

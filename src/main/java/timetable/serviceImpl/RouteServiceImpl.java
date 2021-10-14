@@ -1,13 +1,17 @@
 package timetable.serviceImpl;
 
+import liquibase.pro.packaged.A;
 import org.hibernate.service.spi.ServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import timetable.DAO.RouteDAO;
 import timetable.DAOImpl.RouteDAOImpl;
 import timetable.classes.Station;
 import timetable.entity.RouteEntity;
 import timetable.service.RouteService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service("RouteService")
@@ -20,9 +24,9 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<RouteEntity> findAll(){
+    public Collection<RouteEntity> findAll(){
         try {
-            return routeDAO.readAll();
+            return routeDAO.findAll();
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -31,34 +35,16 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public RouteEntity findById(Long id){
-        try {
-            return routeDAO.findById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new RouteEntity();
-        }
+        return null;
     }
 
     @Override
     public void save(RouteEntity routeEntity){
-        try {
-            if(routeEntity.getId() != null) {
-                routeDAO.update(routeEntity);
-            } else {
-                routeDAO.save(routeEntity);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public void delete(Long id){
-        try {
-            routeDAO.delete(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
