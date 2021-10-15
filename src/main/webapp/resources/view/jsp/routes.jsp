@@ -16,7 +16,7 @@
 </header>
 <section>
 <div>
-    <c:forEach items="${stations}" var="one">
+    <c:forEach items="${all}" var="one">
         <p>
             <a href="/${one.id}">${one.firstStation} — ${one.lastStation}</a><br>Дни курсирования:
                 ${one.type}

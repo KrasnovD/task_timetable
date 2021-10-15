@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import timetable.DAO.TrackDAO;
 import timetable.DAOImpl.TrackDAOImpl;
 import timetable.classes.Route;
-import timetable.classes.Track;
 import timetable.entity.TrackEntity;
 import timetable.service.TrackService;
 import java.sql.SQLException;
@@ -46,51 +45,43 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public String showFirstStation(long id) throws SQLException {
+    public String showFirstStation(long id){
         TrackEntity trackEntity = findById(id);
         return trackDAO.firstStation(trackEntity.getId());
     }
 
     @Override
-    public String showLastStation(long id) throws SQLException {
+    public String showLastStation(long id) {
         TrackEntity trackEntity = findById(id);
         return trackDAO.lastStation(trackEntity.getId());
     }
 
     @Override
-    public String showType(long id){
+    public String showType(long id) {
         TrackEntity trackEntity = findById(id);
         return trackDAO.showType(trackEntity.getId());
     }
 
     @Override
-    public List<Route> showAllroutes(){
-        try {
+    public List<Route> showAllroutes() throws SQLException {
             List<Route> routeList = new ArrayList<>();
-
-            for (long id: DAO.findAllId()
+            for (TrackEntity trackEntity: trackDAO.findAll()
             ) {
                 Route tempRoute = new Route();
-                System.out.printf(trackDAO.firstStation(id));
-                tempRoute.setFirstStation(trackDAO.firstStation(id));
-                tempRoute.setLastStation(trackDAO.lastStation(id));
-                tempRoute.setType(trackDAO.showType(id));
-                tempRoute.setId(id);
+                System.out.printf(trackDAO.firstStation(trackEntity.getId()));
+                tempRoute.setFirstStation(trackDAO.firstStation(trackEntity.getId()));
+                tempRoute.setLastStation(trackDAO.lastStation(trackEntity.getId()));
+                tempRoute.setType(trackDAO.showType(trackEntity.getId()));
+                tempRoute.setId(trackEntity.getId());
                 routeList.add(tempRoute);
             }
             return routeList;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
     }
 
     @Override
-    public List<Route> showRouteByStation(String stationName){
-        try {
+    public List<Route> showRouteByStation(String stationName) throws SQLException{
             List<Route> routeList = new ArrayList<>();
             List<TrackEntity> trackEntities = trackDAO.TrackByStation(stationName);
-            System.out.println(stationName);
             for (TrackEntity track: trackEntities
             ) {
                 Route tempRoute = new Route();
@@ -101,9 +92,5 @@ public class TrackServiceImpl implements TrackService {
                 routeList.add(tempRoute);
             }
             return routeList;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
     }
 }

@@ -37,6 +37,6 @@ public class RouteDAOImpl implements RouteDAO{
 
     @Override
     public List<RouteEntity> findAll() {
-        return null;
+        return entityManager.createQuery("SELECT r FROM route r").getResultList();
     }
 }

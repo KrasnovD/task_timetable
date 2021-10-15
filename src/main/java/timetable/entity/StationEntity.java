@@ -2,20 +2,22 @@ package timetable.entity;
 
 
 import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.ManyToAny;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity
+@Entity(name = "station")
 @Table(name = "stations")
 public class StationEntity implements Serializable {
     @Id
     private long id;
     @Column
     private String name;
+    @ManyToMany(mappedBy = "station")
+    private Set<RouteEntity> routes = new HashSet<>();
 
     public String getName() {
         return name;

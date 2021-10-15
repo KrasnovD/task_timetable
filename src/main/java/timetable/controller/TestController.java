@@ -11,14 +11,17 @@ import timetable.serviceImpl.RouteServiceImpl;
 import timetable.serviceImpl.TrackServiceImpl;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 @Controller
 public class TestController {
+
     @Autowired
     private RouteServiceImpl routeService;
     @Autowired
     private TrackServiceImpl trackService;
+
 
     @GetMapping("/")
     public String showRouteByStationGet(Model model){
@@ -26,15 +29,16 @@ public class TestController {
     }
 
     @PostMapping("/")
-    public String showRouteByStationPost(Model model, @RequestParam String name){
+    public String showRouteByStationPost(Model model, @RequestParam String name) throws SQLException {
         model.addAttribute("stations", trackService.showRouteByStation(name.toLowerCase()));
         return "route";
     }
 
 
     @GetMapping("/allroutes")
-    public String showAllroutes(Model model){
-        model.addAttribute("stations", trackService.showAllroutes());
+    public String showAllroutes(Model model) throws SQLException {
+        System.out.println(1);
+        model.addAttribute("all", trackService.showAllroutes());
         return "routes";
     }
 

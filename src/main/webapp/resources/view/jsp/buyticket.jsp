@@ -26,7 +26,7 @@
     </div>
 </section>
 <footer>
-    <a href="/allroutes">Все маршруты</a>
+    <a href="/">Главная</a>
 </footer>
 </body>
 </html>

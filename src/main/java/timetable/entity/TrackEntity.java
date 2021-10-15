@@ -13,8 +13,19 @@ public class TrackEntity implements Serializable {
     private long id;
     @Column
     private int type;
-    @Column
-    private long routes_id;
+
+    @ManyToOne
+    @JoinColumn(name = "routes_id")
+    private RouteEntity route;
+
+    public RouteEntity getRoute() {
+        return route;
+    }
+
+    public void setRoute(RouteEntity route) {
+        this.route = route;
+    }
+
 
     public int getType() {
         return type;
@@ -22,14 +33,6 @@ public class TrackEntity implements Serializable {
 
     public void setType(int type) {
         this.type = type;
-    }
-
-    public long getRoutes_id() {
-        return routes_id;
-    }
-
-    public void setRoutes_id(long routes_id) {
-        this.routes_id = routes_id;
     }
 
     public long getId() {
