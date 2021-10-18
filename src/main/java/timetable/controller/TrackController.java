@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 @Controller
-public class TestController {
+public class TrackController {
     @Autowired
     private TrackService trackService;
 
@@ -37,7 +37,6 @@ public class TestController {
 
     @GetMapping("/allroutes")
     public String showAllroutes(Model model) throws SQLException {
-        System.out.println(1);
         model.addAttribute("all", trackService.showAllroutes());
         return "routes";
     }

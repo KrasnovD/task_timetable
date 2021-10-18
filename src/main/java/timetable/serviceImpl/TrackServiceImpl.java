@@ -1,6 +1,5 @@
 package timetable.serviceImpl;
 
-import liquibase.pro.packaged.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import timetable.DAO.TrackDAO;
@@ -71,11 +70,9 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public List<Route> showAllroutes() throws SQLException {
             List<Route> routeList = new ArrayList<>();
-        System.out.println(1234);
         System.out.println(trackDAO.findAll().size());
             for (TrackEntity trackEntity: trackDAO.findAll()
             ) {
-                System.out.println(123);
                 Route tempRoute = new Route();
                 System.out.printf(trackDAO.firstStation(trackEntity.getId()) + "\n");
                 tempRoute.setFirstStation(trackDAO.firstStation(trackEntity.getId()));
