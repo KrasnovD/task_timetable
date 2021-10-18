@@ -1,9 +1,6 @@
 package timetable.entity;
 
 
-import org.hibernate.annotations.Columns;
-import org.hibernate.annotations.ManyToAny;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;

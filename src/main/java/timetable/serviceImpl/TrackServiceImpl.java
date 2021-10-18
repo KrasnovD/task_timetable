@@ -1,8 +1,9 @@
 package timetable.serviceImpl;
 
+import liquibase.pro.packaged.T;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import timetable.DAO.TrackDAO;
-import timetable.DAOImpl.TrackDAOImpl;
 import timetable.classes.Route;
 import timetable.entity.TrackEntity;
 import timetable.service.TrackService;
@@ -13,11 +14,8 @@ import java.util.List;
 
 @Service("TrackService")
 public class TrackServiceImpl implements TrackService {
-    TrackDAO DAO;
-    TrackDAOImpl trackDAO;
-    public TrackServiceImpl(TrackDAOImpl trackDAOImpl) {
-        this.trackDAO = trackDAOImpl;
-    }
+    @Autowired
+    private TrackDAO trackDAO;
 
     @Override
     public Collection<TrackEntity> findAll(){
@@ -58,20 +56,32 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public String showType(long id) {
-        TrackEntity trackEntity = findById(id);
-        return trackDAO.showType(trackEntity.getId());
+
+        int type = trackDAO.showType(id);
+        if( type == 1) {
+            return "ежедневно";
+        } else if (type == 2) {
+            return "по будням";
+        } else if (type == 3) {
+            return "по выходным";
+        }
+        else return "Не указано";
     }
 
     @Override
     public List<Route> showAllroutes() throws SQLException {
             List<Route> routeList = new ArrayList<>();
+        System.out.println(1234);
+        System.out.println(trackDAO.findAll().size());
             for (TrackEntity trackEntity: trackDAO.findAll()
             ) {
+                System.out.println(123);
                 Route tempRoute = new Route();
-                System.out.printf(trackDAO.firstStation(trackEntity.getId()));
+                System.out.printf(trackDAO.firstStation(trackEntity.getId()) + "\n");
                 tempRoute.setFirstStation(trackDAO.firstStation(trackEntity.getId()));
+                System.out.printf(trackDAO.lastStation(trackEntity.getId())+ "\n");
                 tempRoute.setLastStation(trackDAO.lastStation(trackEntity.getId()));
-                tempRoute.setType(trackDAO.showType(trackEntity.getId()));
+                tempRoute.setType(showType(trackEntity.getId()));
                 tempRoute.setId(trackEntity.getId());
                 routeList.add(tempRoute);
             }
@@ -87,7 +97,7 @@ public class TrackServiceImpl implements TrackService {
                 Route tempRoute = new Route();
                 tempRoute.setFirstStation(trackDAO.firstStation(track.getId()));
                 tempRoute.setLastStation(trackDAO.lastStation(track.getId()));
-                tempRoute.setType(trackDAO.showType(track.getId()));
+                tempRoute.setType(showType(track.getId()));
                 tempRoute.setId(track.getId());
                 routeList.add(tempRoute);
             }

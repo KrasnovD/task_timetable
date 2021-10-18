@@ -1,8 +1,9 @@
 package timetable.DAO;
+import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.Repository;
+import org.springframework.stereotype.Indexed;
+import timetable.entity.TrackEntity;
 
-import java.util.Collection;
-import java.util.List;
-
-public interface DAO <T> {
-    List<T> findAll();
+@NoRepositoryBean
+public interface DAO<T, ID> extends Repository<T, Long> {
 }

@@ -1,19 +1,20 @@
 package timetable.serviceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import timetable.DAOImpl.StationDAOImpl;
+import timetable.DAO.StationDAO;
+import timetable.DAO.TrackDAO;
 import timetable.entity.StationEntity;
 import timetable.service.StationService;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Service("StationService")
 public class StationServiceImpl implements StationService {
-    private StationDAOImpl stationDAO;
+    @Autowired
+    private StationDAO stationDAO;
 
-    public StationServiceImpl(StationDAOImpl stationDAOImpl) {
-        this.stationDAO=stationDAOImpl;
-    }
 
     @Override
     public List<StationEntity> findAll(){

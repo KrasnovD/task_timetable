@@ -1,12 +1,10 @@
 package timetable.serviceImpl;
 
-import liquibase.pro.packaged.A;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import timetable.DAO.RouteDAO;
-import timetable.DAOImpl.RouteDAOImpl;
-import timetable.classes.Station;
+import timetable.projections.StationProjection;
 import timetable.entity.RouteEntity;
 import timetable.service.RouteService;
 
@@ -17,11 +15,8 @@ import java.util.List;
 @Service("RouteService")
 public class RouteServiceImpl implements RouteService {
 
-    private RouteDAOImpl routeDAO;
-
-    public RouteServiceImpl(RouteDAOImpl routeDAOImpl) {
-        this.routeDAO = routeDAOImpl;
-    }
+    @Autowired
+    private RouteDAO routeDAO;
 
     @Override
     public Collection<RouteEntity> findAll(){
@@ -48,7 +43,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Station> showAllStations(long id) throws ServiceException {
+    public List<StationProjection> showAllStations(long id) throws ServiceException {
         try {
             return routeDAO.showAllStations(id);
         } catch (Exception e) {
